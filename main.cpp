@@ -1,39 +1,25 @@
 #include <iostream>
 
 int main() {
-    bool isBanned;
-    std::string Thor;
-    std::string Storm;
-    std::string UserName;
+    int menuChoice;
 
-    std::cout << "Enter User Name: ";
-    std::cin >> UserName;
+    std::cout << "1. Thor\n2. Iron Man\n3. Storm\nSelect your hero number: ";
+    std::cin >> menuChoice;
 
-    std::cout << "Do you have Thor? (Y/N): ";
-    std::cin >> Thor;
+    switch (menuChoice) {
+        case 1: 
+            std::cout << "Thor deployed! Bring the thunder!" << std::endl;
+            break;
+        case 2: 
+            std::cout << "Iron Man deployed! Repulsors charged!" << std::endl;
+            break;
+        case 3:
+            std::cout << "Storm deployed! Power of the elements!" << std::endl;
 
-    std::cout << "Do you have Storm? (Y/N): ";
-    std::cin >> Storm;
-
-     if (UserName == "Ironmonger2"){
-        isBanned = true;
-    } else{
-        !isBanned;
-    }
-    
-    if (Thor == "Y" || Storm == "Y"){
-        std::cout << "Checking for bans.............." << std::endl;
-        if (!isBanned) {
-            std::cout << "Welcome to dungeons!";
-        } else {
-            std::cout << "Banned User, Access denied!";
-        }
-    } else if (Thor == "N" && Storm == "N"){
-        std::cout << "You need at least 1 to enter the dungeons!" << std::endl;
-    } else {
-        std::cout << "Enter Valid reponse" << std::endl;
+        default:
+            std::cout << "Invalid selection! Team empty." << std::endl;
+        
     }
 
-   
     return 0;
 }
