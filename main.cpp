@@ -1,29 +1,39 @@
 #include <iostream>
 
 int main() {
-    int playerHP;
+    bool isBanned;
+    std::string Thor;
+    std::string Storm;
+    std::string UserName;
 
-    std::cout  << "Enter player's HP: ";
-    std::cin >> playerHP;
+    std::cout << "Enter User Name: ";
+    std::cin >> UserName;
 
-    if (playerHP <= 0){
-        std::cout << "Game Over!" << std::endl;
+    std::cout << "Do you have Thor? (Y/N): ";
+    std::cin >> Thor;
+
+    std::cout << "Do you have Storm? (Y/N): ";
+    std::cin >> Storm;
+
+     if (UserName == "Ironmonger2"){
+        isBanned = true;
+    } else{
+        !isBanned;
     }
     
-    else if (playerHP == 100){
-        std::cout << "Full HP! Ready to blast!" << std::endl;
-    }
-    else if (playerHP >= 80){
-        std::cout << "Health is stable!" << std::endl;
+    if (Thor == "Y" || Storm == "Y"){
+        std::cout << "Checking for bans.............." << std::endl;
+        if (!isBanned) {
+            std::cout << "Welcome to dungeons!";
+        } else {
+            std::cout << "Banned User, Access denied!";
+        }
+    } else if (Thor == "N" && Storm == "N"){
+        std::cout << "You need at least 1 to enter the dungeons!" << std::endl;
+    } else {
+        std::cout << "Enter Valid reponse" << std::endl;
     }
 
-    else if (playerHP >= 40){
-        std::cout << "Decent HP, but be carefull." << std::endl;
-    }
-
-    else{
-        std::cout << "Warning: Low Health! Heal up!" << std::endl;
-    }
-    
+   
     return 0;
 }
