@@ -1,14 +1,18 @@
 #include <iostream>
 
 int main() {
-
-    for (int a = 2; a <= 8; a += 3) {
-        for (int b = 1; b <= 7; b+=3) {
-            if (a > b && (a+b) % 3 == 0){
-                std::cout << "(" << a << "," << b << ")" << std::endl;
-            }
-        }
     
+    int scores[] = {45, 89, 72, 12, 95, 90};
+    int super = 0;
+    for (int i = 0; i <= 7; i++) {
+    
+        if (scores[i] >= super) {
+            super = scores[i];
+        }
+        else {
+        }
+        
     }
-    return 0;
+    std::cout << "The player who scored " << super << " wins!" << std::endl;
+    
 }
