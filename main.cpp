@@ -1,39 +1,33 @@
 #include <iostream>
 
-bool isSS(const int matrix[][3], int rows){
-    for (int i = 0; i < rows; i++){
-        for (int j = 0; j < rows; j++) {
-            if (matrix[i][i] != 0 || matrix[i][j] != -matrix[j][i]){
-                return false;
+void calculateTotalInventory(const int grid[][3][3], int layers){
+    int sum = 0;
+    for (int k = 0; k < layers; k++){
+        for (int i = 0; i < 3; i++){
+            for (int j = 0; j < 3; j++){
+                sum += grid[k][i][j];
+
             }
         }
-    }
-    return true;
+    } std::cout << "Sum of elements of the cube: " << sum << std::endl;
 }
 
 int main(){
-    int mymatrix[][3] = {
-        {0, 0, 0},
-        {0, 0, 0},
-        {0, 0, 0}
-    };
-
-    int myrows = 3;
-
-    for (int a = 0; a < 3; a++){
-        for (int b = 0; b < 3; b++){
-            std::cout << "Enter the (" << a + 1 << "," << b+1 << ") index value: ";
-            std::cin >> mymatrix[a][b];
-            std::cout << std::endl;
-        }
+    int grid[][3][3] {
+    {  {5, 5, 5},
+        {5, 5, 5},
+        {5, 5, 5}
+    },
+    { 
+        {10,10,10},
+        {10,10,10},
+        {10,10,10}
     }
+};
 
-    if (isSS(mymatrix, myrows)){
-        std::cout << "Given matrix is skew-symmetric! :)" << std::endl;
-    }
-
-    else{
-        std::cout << "Given matrix is not skew-symmetric :(" << std::endl;
-    }
-    return 0;
+    int layers = 2;
+    calculateTotalInventory(grid, layers);
 }
+
+
+
