@@ -1,20 +1,24 @@
 #include <iostream>
 #include <string>
-#include <algorithm>
-#include <cctype>
 
 int main(){
 
-    std::string alpha;
+    std::string msg;
     std::cout << "Enter the message: ";
-    std::getline(std::cin, alpha);
+    std::getline(std::cin, msg);
+    
+    std::string c = "";
+    for (int i = 0; i < msg.size(); i++){
+        c += msg.at(msg.size() - 1 - i);
+    }
 
-    std::transform(alpha.begin(), alpha.end(), alpha.begin(), ::toupper);
+    if(msg == c){
+        std::cout << "Entered line is a Pallindrome!";
+    }
 
-    std::reverse(alpha.begin(), alpha.end());
-
-    std::cout << alpha << "\n";
-
-
+    else{
+        std::cout << "Entered line is not a Pallindrome!";
+    }
+    
     return 0;
 }
