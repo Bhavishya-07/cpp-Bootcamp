@@ -3,18 +3,25 @@
 #include <algorithm>
 #include <cctype>
 
+void capitalizeString(std::string &text);
+void printSecurely(const std::string &text);
+
 int main(){
 
-    std::string alpha;
+    std::string text;
     std::cout << "Enter the message: ";
-    std::getline(std::cin, alpha);
-
-    std::transform(alpha.begin(), alpha.end(), alpha.begin(), ::toupper);
-
-    std::reverse(alpha.begin(), alpha.end());
-
-    std::cout << alpha << "\n";
-
+    std::getline(std::cin, text);
+    
+    capitalizeString(text);
+    printSecurely(text);
 
     return 0;
+}
+
+void capitalizeString(std::string &text) {
+    std::transform(text.begin(), text.end(), text.begin(), ::toupper);
+}
+
+void printSecurely(const std::string &text){
+    std::cout << text << "\n";
 }
