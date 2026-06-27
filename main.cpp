@@ -1,27 +1,35 @@
 #include <iostream>
-#include <string>
+#include <vector>
 #include <algorithm>
-#include <cctype>
 
-void capitalizeString(std::string &text);
-void printSecurely(const std::string &text);
+void squareElements(std::vector<int> &nums);
+void sortDescending(std::vector<int> &nums);
+void printVector(const std::vector<int> &nums);
 
-int main(){
-
-    std::string text;
-    std::cout << "Enter the message: ";
-    std::getline(std::cin, text);
+int main() {
     
-    capitalizeString(text);
-    printSecurely(text);
+    std::vector <int> nums = {3, 1, 9, 5, 2};
+
+    squareElements(nums);
+    sortDescending(nums);
+    printVector(nums);
 
     return 0;
 }
 
-void capitalizeString(std::string &text) {
-    std::transform(text.begin(), text.end(), text.begin(), ::toupper);
+void squareElements(std::vector<int> &nums){
+    for (int &a : nums){
+        a*=a;
+    }
 }
 
-void printSecurely(const std::string &text){
-    std::cout << text << "\n";
+void sortDescending(std::vector<int> &nums){
+    std::sort(nums.begin(), nums.end());
+    std::reverse(nums.begin(), nums.end());
+}
+
+void printVector(const std::vector<int> &nums){
+    for(int h : nums){
+        std::cout << h << " ";
+    }
 }
