@@ -2,34 +2,19 @@
 #include <vector>
 #include <algorithm>
 
-void squareElements(std::vector<int> &nums);
-void sortDescending(std::vector<int> &nums);
-void printVector(const std::vector<int> &nums);
+int main(){
+    int thor_hp = 400;
+    int iron_hp = 250;
 
-int main() {
-    
-    std::vector <int> nums = {3, 1, 9, 5, 2};
+    int* active_hero;
 
-    squareElements(nums);
-    sortDescending(nums);
-    printVector(nums);
+    active_hero = &thor_hp;
 
-    return 0;
-}
+    std::cout << *active_hero << std::endl;
 
-void squareElements(std::vector<int> &nums){
-    for (int &a : nums){
-        a*=a;
-    }
-}
+    active_hero = &iron_hp;
 
-void sortDescending(std::vector<int> &nums){
-    std::sort(nums.begin(), nums.end());
-    std::reverse(nums.begin(), nums.end());
-}
+    *active_hero -= 50;
 
-void printVector(const std::vector<int> &nums){
-    for(int h : nums){
-        std::cout << h << " ";
-    }
+    std::cout << iron_hp;
 }
