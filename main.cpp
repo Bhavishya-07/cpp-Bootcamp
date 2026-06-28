@@ -1,20 +1,26 @@
 #include <iostream>
-#include <vector>
-#include <algorithm>
+#include <string>
+#include <map>
 
-int main(){
-    int thor_hp = 400;
-    int iron_hp = 250;
+int main() {
+    std::map<std::string, int> gear_inventory;
 
-    int* active_hero;
+    gear_inventory["CTP of Energy"] = 4;
+    gear_inventory["Mighty CTP"] = 1;
+    gear_inventory["Brilliant CTP"] = 0;
 
-    active_hero = &thor_hp;
+    std::string audit1 = "CTP of Energy";
+    std::string audit2 = "Brilliant CTP";
 
-    std::cout << *active_hero << std::endl;
+    std::string* current_audit;
 
-    active_hero = &iron_hp;
+    current_audit = &audit1;
 
-    *active_hero -= 50;
+    std::cout << *current_audit << " is in the slot " << gear_inventory[*current_audit] << std::endl;
 
-    std::cout << iron_hp;
+    current_audit = &audit2;
+
+    std::cout << *current_audit << " is in the slot " << gear_inventory[*current_audit] << std::endl;
+
+    return 0;
 }
