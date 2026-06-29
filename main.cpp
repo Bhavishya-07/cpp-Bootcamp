@@ -1,37 +1,35 @@
 #include <iostream>
 #include <string>
-#include <map>
 
-void CTPchecker(const std::map<std::string, int> &premium_inventory, const std::string* search);
+class Artifact {
+public:
+    std::string type;
+        std::string character;
+        int star_rating;
 
-int main() {
-    
-    std::map<std::string, int> premium_inventory;
+        void upgrade(int Essence_of_Dimension){
+            if (Essence_of_Dimension >= 350){
+                star_rating += 1;
+                std::cout << "Artifact ranked " << star_rating << " star of " << character << "\n";
 
-    premium_inventory["Mighty CTP"] = 1;
-    premium_inventory["Refined CTP"] = 3;
+            }
+            else{
+                std::cout << "Sufficint Materials not provided \n";
+            }
 
-    std::string target1 = "Mighty CTP";
-    std::string target2 = "Refined CTP";
+        }
+     
+};
 
-    std::string* search;
-    search = &target1;
+int main(){
 
-    CTPchecker(premium_inventory, search);
+    Artifact my_gear;
 
-    std::string seach = "Brilly Rage";
-    search = &seach;
+    my_gear.type = "Striker";
+    my_gear.character = "Storm";
+    my_gear.star_rating = 4;
 
-    CTPchecker(premium_inventory, search);
+    my_gear.upgrade(230);
 
-    return 0;
 }
 
-void CTPchecker(const std::map<std::string, int> &premium_inventory, const std::string* search){
-    if (premium_inventory.count(*search) == 1){
-        std::cout << premium_inventory.at(*search) << " " << *search << " are available.\n";
-    }
-    else{
-        std::cout << "No such CTP available" << std::endl;
-    }
-}
