@@ -1,35 +1,34 @@
 #include <iostream>
 #include <string>
 
-class Artifact {
-public:
-    std::string type;
-        std::string character;
-        int star_rating;
+class Character{
+    public:
+    
+    std::string name;
+    std::string tier;
+    int level;
 
-        void upgrade(int Essence_of_Dimension){
-            if (Essence_of_Dimension >= 350){
-                star_rating += 1;
-                std::cout << "Artifact ranked " << star_rating << " star of " << character << "\n";
+    Character(std::string name, std::string tier, int level){
+        
+        this -> name = name;
+        this -> tier = tier;
+        this -> level = level;
 
-            }
-            else{
-                std::cout << "Sufficint Materials not provided \n";
-            }
+    }
 
-        }
-     
+     void display(){
+            std::cout << name << ": " << tier << "; level = " << level << "\n";
+    }
+
 };
 
-int main(){
+int main() {
 
-    Artifact my_gear;
+    Character hero("Thor", "Tier 4", 80);
+    Character hero2("Knull", "Tier 3", 70);
 
-    my_gear.type = "Striker";
-    my_gear.character = "Storm";
-    my_gear.star_rating = 4;
+    hero.display();
+    hero2.display();
 
-    my_gear.upgrade(230);
-
+    return 0;
 }
-
