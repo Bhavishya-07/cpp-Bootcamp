@@ -1,31 +1,33 @@
 #include <iostream>
-#include<string>
-#include<vector>
+#include <string>
+#include <vector>
 
-class TeamRoaster{
-public: 
-    std::vector<std::string> members;
+class Skill {
 
-    void addHero(std::string name){
-        members.emplace_back(name);
+    public:
+    std::string name;
+    int damage_multiplier;
+
+    Skill(std::string name,
+    int damage_multiplier){
+        this -> name = name;
+        this -> damage_multiplier = damage_multiplier;
     }
-};
 
-void printRoaster(const TeamRoaster& team_object) {
+    void boostSkill(int damage_multiplier){
+
+        this -> damage_multiplier += damage_multiplier;
+        std::cout << name << ": Skill upgraded to " << this->damage_multiplier << "\n";
     
-    for (const std::string& c : team_object.members) { 
-        std::cout << c << "\n";
     }
-}
+
+
+};
 
 int main(){
 
-    TeamRoaster you;
+    Skill hero("God of Thunder", 150);
 
-    you.addHero("Thor");
-    you.addHero("Iron Man");
-    you.addHero("Storm");
-
-    printRoaster(you);
+    hero.boostSkill(50);
 
 }
