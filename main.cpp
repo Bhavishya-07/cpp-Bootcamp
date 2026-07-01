@@ -1,34 +1,40 @@
 #include <iostream>
 #include <string>
+#include <vector>
+class UniformVault {
 
-class Character{
     public:
-    
     std::string name;
-    std::string tier;
-    int level;
+    std::vector<std::string> uniforms;
 
-    Character(std::string name, std::string tier, int level){
-        
+    UniformVault(std::string name, std::vector<std::string> uniforms){
         this -> name = name;
-        this -> tier = tier;
-        this -> level = level;
-
+        this -> uniforms = uniforms;
     }
 
-     void display(){
-            std::cout << name << ": " << tier << "; level = " << level << "\n";
+    void addUniform(std::string uni_name){
+        uniforms.emplace_back(uni_name);
     }
 
+    void equipLatest(){
+        std::string f = uniforms.back();
+
+        if (f != ""){
+        std::cout << "Equipped " << f << " for " << name << ". \n";
+        }
+
+        else{
+            std::cout << "No uniforms available! \n";
+        }
+    }
 };
 
-int main() {
+int main(){
 
-    Character hero("Thor", "Tier 4", 80);
-    Character hero2("Knull", "Tier 3", 70);
+    UniformVault hero("Colossus", {});
 
-    hero.display();
-    hero2.display();
+    hero.addUniform("Phoenix Five");
+    hero.addUniform("Hellfire Gala");
 
-    return 0;
+    hero.equipLatest();
 }
