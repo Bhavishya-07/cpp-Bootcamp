@@ -1,40 +1,31 @@
 #include <iostream>
-#include <string>
-#include <vector>
-class UniformVault {
+#include<string>
+#include<vector>
 
-    public:
-    std::string name;
-    std::vector<std::string> uniforms;
+class TeamRoaster{
+public: 
+    std::vector<std::string> members;
 
-    UniformVault(std::string name, std::vector<std::string> uniforms){
-        this -> name = name;
-        this -> uniforms = uniforms;
-    }
-
-    void addUniform(std::string uni_name){
-        uniforms.emplace_back(uni_name);
-    }
-
-    void equipLatest(){
-        std::string f = uniforms.back();
-
-        if (f != ""){
-        std::cout << "Equipped " << f << " for " << name << ". \n";
-        }
-
-        else{
-            std::cout << "No uniforms available! \n";
-        }
+    void addHero(std::string name){
+        members.emplace_back(name);
     }
 };
 
+void printRoaster(const TeamRoaster& team_object) {
+    
+    for (const std::string& c : team_object.members) { 
+        std::cout << c << "\n";
+    }
+}
+
 int main(){
 
-    UniformVault hero("Colossus", {});
+    TeamRoaster you;
 
-    hero.addUniform("Phoenix Five");
-    hero.addUniform("Hellfire Gala");
+    you.addHero("Thor");
+    you.addHero("Iron Man");
+    you.addHero("Storm");
 
-    hero.equipLatest();
+    printRoaster(you);
+
 }
