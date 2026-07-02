@@ -4,25 +4,17 @@
 #include<unordered_map>
 #include<vector>
 
-class HeroStats {
-public:
-    int level;
-    std::string tier;
+int main(){
+    std::map<std::string, std::string> uniform_catalog;
 
-    HeroStats (int level, std::string tier){
-        this -> level = level;
-        this -> tier = tier     ;
+    uniform_catalog["Iron Man"] = "Model Nil";
+    uniform_catalog["Hulk"] = "Titan";
+
+    std::string* active_uniform;
+
+    if (uniform_catalog.count("Iron Man") == 1){
+        active_uniform = &uniform_catalog["Iron Man"];
+        std::cout << "Active uniform for Iron Man is " << *active_uniform << "\n";
     }
-};
 
-int main() {
-    std::unordered_map<std::string, HeroStats> game_database = {
-        {"Thor", HeroStats{80, "T4"}},
-        {"Strom", HeroStats{80, "T4"}}
-    };
-
-    for (const auto& [name, stats] : game_database) {
-        std::cout << name << " at level " << stats.level << " and " << stats.tier << "\n";
-    }
 }
-
