@@ -1,35 +1,28 @@
-#include <iostream>
-#include <string>
-#include <vector>
-#include <map>
+#include<iostream>
+#include<string>
+#include<map>
+#include<unordered_map>
+#include<vector>
 
-class AllianceVault{
+class HeroStats {
+public:
+    int level;
+    std::string tier;
 
-    public:
-
-    std::map<std::string, int> gold;
-
-    void addGold(std::string alliance_name, int amount){
-        gold[alliance_name] += amount;
-    }
-
-    void checkGold(std::string alliance_name){
-        if (gold.count(alliance_name) == 1){
-            std::cout << alliance_name << " has " << gold.at(alliance_name) << " gold. \n";
-        }
-
-        else{
-            std::cout << "Alliance doesn't exist. \n";
-        }
+    HeroStats (int level, std::string tier){
+        this -> level = level;
+        this -> tier = tier     ;
     }
 };
 
+int main() {
+    std::unordered_map<std::string, HeroStats> game_database = {
+        {"Thor", HeroStats{80, "T4"}},
+        {"Strom", HeroStats{80, "T4"}}
+    };
 
-int main(){
-
-    AllianceVault coins;
-    
-    coins.addGold("Avengers", 500);
-    coins.checkGold("Avengers");
-
+    for (const auto& [name, stats] : game_database) {
+        std::cout << name << " at level " << stats.level << " and " << stats.tier << "\n";
+    }
 }
+
