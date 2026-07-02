@@ -1,33 +1,35 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <map>
 
-class Skill {
+class AllianceVault{
 
     public:
-    std::string name;
-    int damage_multiplier;
 
-    Skill(std::string name,
-    int damage_multiplier){
-        this -> name = name;
-        this -> damage_multiplier = damage_multiplier;
+    std::map<std::string, int> gold;
+
+    void addGold(std::string alliance_name, int amount){
+        gold[alliance_name] += amount;
     }
 
-    void boostSkill(int damage_multiplier){
+    void checkGold(std::string alliance_name){
+        if (gold.count(alliance_name) == 1){
+            std::cout << alliance_name << " has " << gold.at(alliance_name) << " gold. \n";
+        }
 
-        this -> damage_multiplier += damage_multiplier;
-        std::cout << name << ": Skill upgraded to " << this->damage_multiplier << "\n";
-    
+        else{
+            std::cout << "Alliance doesn't exist. \n";
+        }
     }
-
-
 };
+
 
 int main(){
 
-    Skill hero("God of Thunder", 150);
-
-    hero.boostSkill(50);
+    AllianceVault coins;
+    
+    coins.addGold("Avengers", 500);
+    coins.checkGold("Avengers");
 
 }
