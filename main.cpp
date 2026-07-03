@@ -4,17 +4,29 @@
 #include<unordered_map>
 #include<vector>
 
-int main(){
-    std::map<std::string, std::string> uniform_catalog;
+class GameCharacter{
+    public:
+    std::string name;
+    int health;
 
-    uniform_catalog["Iron Man"] = "Model Nil";
-    uniform_catalog["Hulk"] = "Titan";
+    GameCharacter(std::string name,
+    int health){
+        this -> name = name;
+        this-> health = health;
 
-    std::string* active_uniform;
-
-    if (uniform_catalog.count("Iron Man") == 1){
-        active_uniform = &uniform_catalog["Iron Man"];
-        std::cout << "Active uniform for Iron Man is " << *active_uniform << "\n";
     }
 
+};
+
+int main(){
+    GameCharacter hero ("Thor", 100);
+    GameCharacter* character_ptr =nullptr;
+
+    character_ptr = &hero;
+
+    character_ptr -> health = 80;
+
+    std::cout << hero.name << " has current health: " << hero.health << "\n";
+
+    return 0;
 }
