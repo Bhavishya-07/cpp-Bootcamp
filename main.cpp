@@ -4,29 +4,22 @@
 #include<unordered_map>
 #include<vector>
 
-class GameCharacter{
-    public:
-    std::string name;
-    int health;
+int main() {
+    std::map<std::string, int> power_levels{
+        {"Thor", 95},
+        {"Storm", 145},
+        {"Mephisto", 905}
+    };
 
-    GameCharacter(std::string name,
-    int health){
-        this -> name = name;
-        this-> health = health;
+    int* current_power = nullptr;
 
+    if(power_levels.count("Thor") == 1){
+        current_power = &power_levels["Thor"];
+
+        std::cout << "Thor's attack rating: " << *current_power << "\n";
     }
 
-};
-
-int main(){
-    GameCharacter hero ("Thor", 100);
-    GameCharacter* character_ptr =nullptr;
-
-    character_ptr = &hero;
-
-    character_ptr -> health = 80;
-
-    std::cout << hero.name << " has current health: " << hero.health << "\n";
-
     return 0;
-}
+}    
+
+
