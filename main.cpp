@@ -1,25 +1,28 @@
-#include<iostream>
-#include<string>
-#include<map>
-#include<unordered_map>
-#include<vector>
+#include <iostream>
+#include <vector>
+#include <string>
 
-int main() {
-    std::map<std::string, int> power_levels{
-        {"Thor", 95},
-        {"Storm", 145},
-        {"Mephisto", 905}
-    };
+class Character {
+public:
+    std::string name;
+    Character(std::string n) : name(n) {}
+};
 
-    int* current_power = nullptr;
+void AssembleRoster() {
+    // A vector that holds POINTERS to dynamic characters
+    std::vector<Character*> roster;
 
-    if(power_levels.count("Thor") == 1){
-        current_power = &power_levels["Thor"];
+    // Imagine we are adding 4 specific heroes one by one
+    roster.push_back(new Character("Thor"));
+    roster.push_back(new Character("Iron Man"));
+    roster.push_back(new Character("Storm"));
+    roster.push_back(new Character("Sentry"));
 
-        std::cout << "Thor's attack rating: " << *current_power << "\n";
+    // We print the team out
+    for (size_t i = 0; i < roster.size(); i++) {
+        std::cout << "Hero: " << roster[i]->name << "\n";
     }
 
-    return 0;
-}    
-
-
+    // Problem 1: This function ends right here. 
+    // Think about what happens to the characters allocated with `new`!
+}
