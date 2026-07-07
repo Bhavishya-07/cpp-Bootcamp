@@ -1,28 +1,18 @@
 #include <iostream>
-#include <vector>
+#include <unordered_map>
 #include <string>
 
-class Character {
-public:
-    std::string name;
-    Character(std::string n) : name(n) {}
+struct CharacterData {
+    int level;
+    std::string tier;
 };
 
-void AssembleRoster() {
-    // A vector that holds POINTERS to dynamic characters
-    std::vector<Character*> roster;
-
-    // Imagine we are adding 4 specific heroes one by one
-    roster.push_back(new Character("Thor"));
-    roster.push_back(new Character("Iron Man"));
-    roster.push_back(new Character("Storm"));
-    roster.push_back(new Character("Sentry"));
-
-    // We print the team out
-    for (size_t i = 0; i < roster.size(); i++) {
-        std::cout << "Hero: " << roster[i]->name << "\n";
-    }
-
-    // Problem 1: This function ends right here. 
-    // Think about what happens to the characters allocated with `new`!
+void LogUpgrades() {
+    std::unordered_map<std::string, CharacterData> t4_roster;
+    t4_roster.reserve(3); // 1. Prevent bucket rehashing
+    
+    // 2. Construct elements directly in-place (no copies, no default construction)
+    t4_roster.try_emplace("Thor", 80, "Tier-4");
+    t4_roster.try_emplace("Iron Man", 80, "Tier-4");
+    t4_roster.try_emplace("Storm", 80, "Tier-4");
 }
