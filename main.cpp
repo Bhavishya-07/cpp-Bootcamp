@@ -2,74 +2,71 @@
 #include <string>
 #include <vector>
 
-class Gear {
-public:
-    std::string name;
-    int level;
+class Vehicle {
+    public:
+    int speed;
+    std::string brand;
 
-    Gear(std::string n, int l) : name(n), level(l) {}
+    Vehicle(int s, std::string b) : speed(s), brand(b){}
 
-    // 1. THE VIRTUAL DESTRUCTOR
-    // Essential for memory safety! It ensures that when we delete a derived object 
-    // through a Gear*, the child's destructor runs first, preventing massive leaks.
-    virtual ~Gear() {
-        std::cout << "Cleaning up base Gear: " << name << "\n";
+    virtual ~Vehicle(){
+        std::cout << "Cleanup!\n";
     }
 
-    // 2. THE VIRTUAL FUNCTION
-    // Tells the compiler: "If a sub-class has its own version of this function, 
-    // execute theirs instead of mine at runtime."
-    virtual void PrintStats() {
-        std::cout << name << " (Lvl " << level << ")\n";
+    virtual void Driving(){
+        std::cout << brand << ": " << speed << "\n";
     }
 };
 
-class Weapon : public Gear {
-public:
-    int damage;
+class Car : public Vehicle{
+    public:
+    int doors;
 
-    // Constructor chains into Gear's constructor
-    Weapon(std::string n, int l, int dmg) : Gear(n, l), damage(dmg) {}
+    Car(int s, std::string b, int d) : Vehicle(s, b), doors(d){}
 
-    ~Weapon() override {
-        std::cout << "Cleaning up Weapon-specific variables\n";
+    ~Car(){
+        std::cout << "Car data deleted!\n";
     }
 
-    // Custom implementation for weapons
-    void PrintStats() override {
-        std::cout << "⚔️ Weapon: " << name << " | Lvl: " << level << " | Damage: " << damage << "\n";
+    void Driving() override {
+        std::cout << "A " << doors << "-door " << brand << " car is moving with a speed of " << speed << "km/h \n";
+
     }
+
 };
 
-class Armor : public Gear {
-public:
-    int defence;
+class Truck : public Vehicle{
+    public:
+    int cargo_weight;
 
-    
-    Armor(std::string n, int l, int def) : Gear(n, l), defence(def) {}
+    Truck(int s, std::string b, int cw) : Vehicle(s, b), cargo_weight(cw){}
 
-    ~Armor() override {
-        std::cout << "Cleaning up Armor-specific variables\n";
+    ~Truck(){
+        std::cout << "Truck data deleted!\n";
     }
 
-    void PrintStats() override {
-        std::cout << "🛡️ Defence: " << name << " | Lvl: " << level << " | Damage: " << defence << "\n";
+    void Driving() override {
+        std::cout << "A " << brand << " truck is moving with a speed of " << speed << "km/h, carrying " << cargo_weight << " tons of shipment. \n";
+
     }
+
 };
 
 int main(){
-    std::vector<Gear*> inventory;
-    inventory.reserve(2);
-    inventory.push_back(new Weapon("Mjolnir", 80, 500));
-    inventory.push_back(new Armor("Uru Breastplate", 80, 750));
-    
-    for (Gear* c : inventory){
-        c -> PrintStats();
+
+    std::vector<Vehicle*> Road;
+
+    Road.reserve(2);
+    Road.push_back(new Car(40, "Audi", 4));
+    Road.push_back(new Truck(30, "Mahindra", 36));
+
+    for (Vehicle* c : Road){
+        c -> Driving();
     }
 
-    for (Gear* c : inventory){
+    for (Vehicle* c : Road){
         delete c;
     }
 
-
+    return 0;
 }
