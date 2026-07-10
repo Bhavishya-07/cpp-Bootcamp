@@ -1,72 +1,79 @@
 #include <iostream>
-#include <string>
 #include <vector>
+#include <memory>
+#include <string>
 
-class Vehicle {
-    public:
-    int speed;
-    std::string brand;
+class Weapon {
+public:
+    std::string weapon_name;
 
-    Vehicle(int s, std::string b) : speed(s), brand(b){}
+    Weapon(std::string n) : weapon_name(n){}
 
-    virtual ~Vehicle(){
-        std::cout << "Cleanup!\n";
-    }
-
-    virtual void Driving(){
-        std::cout << brand << ": " << speed << "\n";
+    ~Weapon(){
+        std::cout << "💥 " << weapon_name << " has been destroyed and removed from memory.\n";
     }
 };
 
-class Car : public Vehicle{
-    public:
-    int doors;
-
-    Car(int s, std::string b, int d) : Vehicle(s, b), doors(d){}
-
-    ~Car(){
-        std::cout << "Car data deleted!\n";
+class Hero {
+public:
+    std::string hero_name;
+    std::shared_ptr<Weapon> equipped_weapon; 
+    
+    Hero(std::string n, std::shared_ptr<Weapon> w) : hero_name(n), equipped_weapon(w){}
+    
+    virtual ~Hero(){
+        std::cout << "Cleanup base Hero: " << hero_name << "\n";
     }
 
-    void Driving() override {
-        std::cout << "A " << doors << "-door " << brand << " car is moving with a speed of " << speed << "km/h \n";
-
-    }
-
+    virtual void CombatAction() = 0; 
 };
 
-class Truck : public Vehicle{
-    public:
-    int cargo_weight;
+class Mage : public Hero {
+public:
+    
+    Mage(std::string n, std::shared_ptr<Weapon> w) : Hero(n, w) {}
 
-    Truck(int s, std::string b, int cw) : Vehicle(s, b), cargo_weight(cw){}
-
-    ~Truck(){
-        std::cout << "Truck data deleted!\n";
+    ~Mage() override {
+        std::cout << "Cleaning up Mage-specific variables\n";
     }
 
-    void Driving() override {
-        std::cout << "A " << brand << " truck is moving with a speed of " << speed << "km/h, carrying " << cargo_weight << " tons of shipment. \n";
+    void CombatAction() override {
+        std::cout << "🔮 Mage " << hero_name << " casts spells using " << equipped_weapon->weapon_name << "!\n";
+    }
+};
 
+class Warrior : public Hero {
+public:
+    Warrior(std::string n, std::shared_ptr<Weapon> w) : Hero(n, w) {}
+
+    ~Warrior() override {
+        std::cout << "Cleaning up Warrior-specific variables\n";
     }
 
+    void CombatAction() override {
+        std::cout << "🪓 Warrior " << hero_name << " swings " << equipped_weapon->weapon_name << " into battle!\n";
+    }
 };
 
 int main(){
 
-    std::vector<Vehicle*> Road;
+    std::shared_ptr<Weapon> legendary_weapon = std::make_shared<Weapon>("Jarnbjorn");
 
-    Road.reserve(2);
-    Road.push_back(new Car(40, "Audi", 4));
-    Road.push_back(new Truck(30, "Mahindra", 36));
 
-    for (Vehicle* c : Road){
-        c -> Driving();
+    std::vector<std::unique_ptr<Hero>> War;
+    War.reserve(2);
+
+
+    War.push_back(std::make_unique<Mage>("Strange", legendary_weapon));
+    War.push_back(std::make_unique<Warrior>("Thor", legendary_weapon));
+
+
+    std::cout << "Weapon reference count: " << legendary_weapon.use_count() << "\n\n";
+
+    for (const auto& c : War){
+        c -> CombatAction();
     }
 
-    for (Vehicle* c : Road){
-        delete c;
-    }
-
+    std::cout << "\n--- Exiting main() ---\n";
     return 0;
 }
