@@ -3,77 +3,46 @@
 #include <memory>
 #include <string>
 
-class Weapon {
-public:
-    std::string weapon_name;
+class Team{};
 
-    Weapon(std::string n) : weapon_name(n){}
+class Coach{
+    public:
+    std::string coach_name;
+    std::weak_ptr<Team> team_ptr;
 
-    ~Weapon(){
-        std::cout << "💥 " << weapon_name << " has been destroyed and removed from memory.\n";
+    Coach(std::string n) : coach_name(n) {}
+    ~Coach(){
+        std::cout << "Coach Deleted!\n";
     }
 };
 
-class Hero {
-public:
-    std::string hero_name;
-    std::shared_ptr<Weapon> equipped_weapon; 
-    
-    Hero(std::string n, std::shared_ptr<Weapon> w) : hero_name(n), equipped_weapon(w){}
-    
-    virtual ~Hero(){
-        std::cout << "Cleanup base Hero: " << hero_name << "\n";
-    }
+class Team{
+    public:
+    std::string team_name;
+    std::shared_ptr<Coach> coach_ptr;
 
-    virtual void CombatAction() = 0; 
-};
-
-class Mage : public Hero {
-public:
-    
-    Mage(std::string n, std::shared_ptr<Weapon> w) : Hero(n, w) {}
-
-    ~Mage() override {
-        std::cout << "Cleaning up Mage-specific variables\n";
-    }
-
-    void CombatAction() override {
-        std::cout << "🔮 Mage " << hero_name << " casts spells using " << equipped_weapon->weapon_name << "!\n";
-    }
-};
-
-class Warrior : public Hero {
-public:
-    Warrior(std::string n, std::shared_ptr<Weapon> w) : Hero(n, w) {}
-
-    ~Warrior() override {
-        std::cout << "Cleaning up Warrior-specific variables\n";
-    }
-
-    void CombatAction() override {
-        std::cout << "🪓 Warrior " << hero_name << " swings " << equipped_weapon->weapon_name << " into battle!\n";
+    Team(std::string tn) : team_name(tn) {}
+    ~Team(){
+        std::cout << "Team deleted!\n";
     }
 };
 
 int main(){
+    {
+        auto team = std::make_shared<Team>("X-Men");
+        auto coach = std::make_shared<Coach>("Professor X");
 
-    std::shared_ptr<Weapon> legendary_weapon = std::make_shared<Weapon>("Jarnbjorn");
+        team->coach_ptr = coach;
+        coach->team_ptr = team;
 
+        if (auto coach_tp = coach->team_ptr.lock()){
+            std::cout << coach_tp->team_name << " has the Coach now!\n";
+        }
 
-    std::vector<std::unique_ptr<Hero>> War;
-    War.reserve(2);
-
-
-    War.push_back(std::make_unique<Mage>("Strange", legendary_weapon));
-    War.push_back(std::make_unique<Warrior>("Thor", legendary_weapon));
-
-
-    std::cout << "Weapon reference count: " << legendary_weapon.use_count() << "\n\n";
-
-    for (const auto& c : War){
-        c -> CombatAction();
     }
 
-    std::cout << "\n--- Exiting main() ---\n";
+    std::cout << "--- Scope Ended ---\n";
+
     return 0;
+
 }
