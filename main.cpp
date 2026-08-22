@@ -1,48 +1,46 @@
-#include <iostream>
 #include <vector>
-#include <memory>
+#include <unordered_map>
+#include <iostream>
 #include <string>
 
-class Team{};
+class Player{
+    int health;
+    int score;
+    
 
-class Coach{
-    public:
-    std::string coach_name;
-    std::weak_ptr<Team> team_ptr;
+public:
 
-    Coach(std::string n) : coach_name(n) {}
-    ~Coach(){
-        std::cout << "Coach Deleted!\n";
+    Player(int h = 100, int s = 0) : health(h), score(s) {}
+
+    void takeDamageandFight(int damage, int p_damage){
+        health -= damage;
+        score += p_damage;
+
+        if (health <= 0){
+            health = 0;
+        }
+        
+        std::cout << "HIT! " << p_damage << " points! Current health = " << health << "\n";
     }
-};
 
-class Team{
-    public:
-    std::string team_name;
-    std::shared_ptr<Coach> coach_ptr;
-
-    Team(std::string tn) : team_name(tn) {}
-    ~Team(){
-        std::cout << "Team deleted!\n";
+    bool isAlive(){
+        if (health <= 0){
+            std::cout << "Game Over! " << "Final Score: " << score << "\n";
+            return false;
+        }
+        return true;
     }
+
 };
 
 int main(){
-    {
-        auto team = std::make_shared<Team>("X-Men");
-        auto coach = std::make_shared<Coach>("Professor X");
 
-        team->coach_ptr = coach;
-        coach->team_ptr = team;
-
-        if (auto coach_tp = coach->team_ptr.lock()){
-            std::cout << coach_tp->team_name << " has the Coach now!\n";
-        }
-
+    Player Thor(80, 0);
+    bool a = true;
+    while (a == true){
+        Thor.takeDamageandFight(15, 50);
+        a = Thor.isAlive();
     }
 
-    std::cout << "--- Scope Ended ---\n";
-
     return 0;
-
 }
