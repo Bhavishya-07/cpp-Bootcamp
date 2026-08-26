@@ -2,104 +2,47 @@
 #include <unordered_map>
 #include <iostream>
 #include <string>
+#include <algorithm>
 
-class BankAccount{
-
-    double balance;
+class Sanitizer{
+    std::string input;
 
 public:
 
-    void setBalance(double b){
-        if (b < 0){
-            balance = -b;
-            std::cout << "Loan Reminder: Return " << balance << " rupees ASAP!\n";
-            balance = 0;
-        }
+    Sanitizer(std::string i) : input(i){}
 
-        else{
-            balance = b;
-        }
-    }
-    double getBalance() const{
-        if (balance < 0){
-            return 0.0;
-        }
-        else{return balance;}
-    }
+    std::string sanitize(){
+        size_t ph = input.find('#');
+        size_t pa = input.find('@');
 
-    void withdraw(double amount){
-        if (balance >= amount){
-            std::cout << "Amount: " << amount << " rupees withdrawed from you account.\n----------------------------------------------------------\n";
-            balance -= amount;
-
-        }
-
-        else{
-            char a;
-            std::cout << "Insufficent Balance!\n Wanna take loan? (Y/N) ";
-            std::cin >> a;
-
-            if (a == 'Y' || a == 'y'){
-
-                if(balance > -5000){
-                    std::cout << "Amount: " << amount << " withdrawed from you account.\n----------------------------------------------------------\n";
-                    balance -= amount;
-                    std::cout << "Loan Amount: " << -balance << "\n";
-                }
-                else{
-                    std::cout << "Pay previous loans first!\n";
-                    std::cout << "Loan Amount: " << -balance << "\n";
-                    std::cout << "Failed to withdraw the amount!\n----------------------------------------------------------\n";
-                }
+        if (ph != std::string::npos || pa != std::string::npos) {
+            if (ph > pa) {
+                input.erase(pa);
             }
-
+            
             else {
-                std::cout << "Failed to withdraw the amount!\n----------------------------------------------------------\n";
+             input.erase(ph);
             }
         }
-    }
 
-    void withdraw(double amount, double fee){
-        if (balance >= (amount+fee)){
-            std::cout << "Amount: " << amount << " rupees withdrawed from you account.\n ----------------------------------------------------------\n";
-            balance -= (amount+fee);
+        std::string nosp;
 
-        }
-
-        else{
-            char a;
-            std::cout << "Insufficent Balance!\n Wanna take loan? (Y/N) ";
-            std::cin >> a;
-
-            if (a == 'Y' || a == 'y'){
-                if(balance > -5000){
-                    std::cout << "Amount: " << (amount+fee) << "withdrawed from you account.\n----------------------------------------------------------\n";
-                    balance -= (amount+fee);
-                    std::cout << "Loan Amount: " << -balance << "\n";
-                }
-                else{
-                    std::cout << "Pay previous loans first!\n";
-                    std::cout << "Loan Amount: " << -balance << "\n";
-                    std::cout << "Failed to withdraw the amount!\n----------------------------------------------------------\n";
-                }
-            }
-
-            else {
-                std::cout << "Failed to withdraw the amount!\n----------------------------------------------------------\n";
+        for (char c : input){
+            if (c != ' '){
+                nosp.push_back(c);
             }
         }
+
+        if (nosp.size() % 2 != 0){
+            std::reverse(nosp.begin(), nosp.end());
+        }
+
+        return nosp;
     }
 };
 
 int main(){
 
-    BankAccount t1;
-
-    t1.setBalance(20000);
-
-    t1.withdraw(5000);
-
-    std::cout << "Remaining Balance: " << t1.getBalance() << " rupees! (Processing fee deducted (if any))\n";
-
-    return 0;
+    Sanitizer germ("Heros#N@g#B# A#T#T#L#E  @");
+    std::cout << germ.sanitize() << "\n";
 }
