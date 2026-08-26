@@ -4,45 +4,52 @@
 #include <string>
 #include <algorithm>
 
-class Sanitizer{
-    std::string input;
+class Character{
+    int health;
+    int mana;
 
 public:
 
-    Sanitizer(std::string i) : input(i){}
+    Character(int h, int m) : health(h), mana(m) {}
 
-    std::string sanitize(){
-        size_t ph = input.find('#');
-        size_t pa = input.find('@');
+    void applyHealthPotion(int*hpBoost){
 
-        if (ph != std::string::npos || pa != std::string::npos) {
-            if (ph > pa) {
-                input.erase(pa);
-            }
-            
-            else {
-             input.erase(ph);
-            }
+        if (hpBoost != nullptr){
+            health += *hpBoost;
+            *hpBoost = 0;
         }
 
-        std::string nosp;
+        else{
+            std::cout << "No health potion applied!\n";
+        }
+    }
 
-        for (char c : input){
-            if (c != ' '){
-                nosp.push_back(c);
-            }
+    void applyManaPotion(int& manaBoost){
+        
+        if (manaBoost != 0){
+            mana += manaBoost;
+            manaBoost = 0;
         }
 
-        if (nosp.size() % 2 != 0){
-            std::reverse(nosp.begin(), nosp.end());
+        else{
+            std::cout << "No mana applied!\n";
         }
+    }
 
-        return nosp;
+    void printStats() const{
+        std::cout << "Current Health: " << health << "\nMana Power: " << mana << "\n";
     }
 };
 
 int main(){
 
-    Sanitizer germ("Heros#N@g#B# A#T#T#L#E  @");
-    std::cout << germ.sanitize() << "\n";
+    Character Gwen(50, 30);
+
+    int healthPot = 40;
+    int manaPot = 25;
+
+    Gwen.applyHealthPotion(&healthPot);
+    Gwen.applyManaPotion(manaPot);
+
+    Gwen.printStats();
 }
