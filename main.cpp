@@ -2,54 +2,74 @@
 #include <unordered_map>
 #include <iostream>
 #include <string>
-#include <algorithm>
 
-class Character{
-    int health;
-    int mana;
+class Entity{
+    protected:
+    std::string name;
 
-public:
+    public:
+    Entity(std::string n) : name(n){} 
 
-    Character(int h, int m) : health(h), mana(m) {}
+    virtual void update() = 0;
 
-    void applyHealthPotion(int*hpBoost){
-
-        if (hpBoost != nullptr){
-            health += *hpBoost;
-            *hpBoost = 0;
-        }
-
-        else{
-            std::cout << "No health potion applied!\n";
-        }
+    virtual void render() const {
+        std::cout << "Rendering Base Entity: " << name << "\n";
     }
 
-    void applyManaPotion(int& manaBoost){
+    virtual ~Entity(){
         
-        if (manaBoost != 0){
-            mana += manaBoost;
-            manaBoost = 0;
-        }
-
-        else{
-            std::cout << "No mana applied!\n";
-        }
-    }
-
-    void printStats() const{
-        std::cout << "Current Health: " << health << "\nMana Power: " << mana << "\n";
     }
 };
 
+class Player : public Entity {
+    private:
+    int level;
+
+    public:
+
+    Player(const std::string &n, int l) : Entity(n), level(l) {}
+
+    void update() override {
+        std::cout << "[Player] " << name << " updated position.\n";
+    }
+    void render() const override {
+        std::cout << "[Player] Rendering " << name << " (Level " << level << ")\n";
+    }
+
+    ~Player(){}
+};
+
+class NPC : public Entity{
+    private:
+
+    std::string dialouge;
+
+    public:
+
+    NPC(const std::string &n, const std::string &s) : Entity(n), dialouge(s) {}
+
+    void update() override{
+        std::cout << "[NPC] " << name << " idle animation.\n";
+    }
+
+    void render() const override {
+        std::cout << "[NPC] Rendering " << name << " saying: " << dialouge << "\n";
+    }
+    
+    ~NPC(){}
+};
+
 int main(){
+    std::vector<Entity*> ent;
+    ent.push_back(new Player("Thor", 4));
+    ent.push_back(new NPC("Phil Coulson", "Hello there!"));
 
-    Character Gwen(50, 30);
+    for (auto e : ent){
+        e->update();
+        e->render();
+    }
+    for(auto e : ent) delete e;
+    ent.clear();
 
-    int healthPot = 40;
-    int manaPot = 25;
-
-    Gwen.applyHealthPotion(&healthPot);
-    Gwen.applyManaPotion(manaPot);
-
-    Gwen.printStats();
+    return 0;
 }
