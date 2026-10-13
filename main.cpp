@@ -1,75 +1,50 @@
-#include <vector>
-#include <unordered_map>
 #include <iostream>
 #include <string>
+#include <stdexcept>
+using namespace std;
 
-class Entity{
-    protected:
-    std::string name;
+template <typename T1, typename T2>
+class Pair{
+    T1 first;
+    T2 second;
 
-    public:
-    Entity(std::string n) : name(n){} 
+public:
+    Pair() = default;
 
-    virtual void update() = 0;
-
-    virtual void render() const {
-        std::cout << "Rendering Base Entity: " << name << "\n";
+    T1 getFirst() const{
+        cout << "First Element: " << first << "\n";
+        return first;
     }
 
-    virtual ~Entity(){
-        
-    }
-};
-
-class Player : public Entity {
-    private:
-    int level;
-
-    public:
-
-    Player(const std::string &n, int l) : Entity(n), level(l) {}
-
-    void update() override {
-        std::cout << "[Player] " << name << " updated position.\n";
-    }
-    void render() const override {
-        std::cout << "[Player] Rendering " << name << " (Level " << level << ")\n";
+    T2 getSecond() const{
+        cout << "Second Element: " << second << "\n";
+        return second;
     }
 
-    ~Player(){}
-};
-
-class NPC : public Entity{
-    private:
-
-    std::string dialouge;
-
-    public:
-
-    NPC(const std::string &n, const std::string &s) : Entity(n), dialouge(s) {}
-
-    void update() override{
-        std::cout << "[NPC] " << name << " idle animation.\n";
+    void setFirst(const T1& f){
+        first = f;
     }
 
-    void render() const override {
-        std::cout << "[NPC] Rendering " << name << " saying: " << dialouge << "\n";
+    void setSecond(const T2& s){
+        second = s;
     }
-    
-    ~NPC(){}
+
+    void print() const{
+        cout << "(" << first << ", " << second << ")\n";
+    }
+
 };
 
 int main(){
-    std::vector<Entity*> ent;
-    ent.push_back(new Player("Thor", 4));
-    ent.push_back(new NPC("Phil Coulson", "Hello there!"));
+    Pair<int, std::string> M;
+    Pair<double, double> T;
 
-    for (auto e : ent){
-        e->update();
-        e->render();
-    }
-    for(auto e : ent) delete e;
-    ent.clear();
+    M.setFirst(101);
+    M.setSecond("Thor");
 
-    return 0;
+    T.setFirst(45.5);
+    T.setSecond(90.2);
+
+    M.print();
+    T.print();
 }
