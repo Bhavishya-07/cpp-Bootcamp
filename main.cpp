@@ -1,50 +1,58 @@
 #include <iostream>
-#include <string>
-#include <stdexcept>
 using namespace std;
 
-template <typename T1, typename T2>
-class Pair{
-    T1 first;
-    T2 second;
-
+class CharBuffer{
+    char* data;
+    size_t size;
 public:
-    Pair() = default;
 
-    T1 getFirst() const{
-        cout << "First Element: " << first << "\n";
-        return first;
+    CharBuffer(size_t s) : size(s), data(new char[s]){}
+
+    ~CharBuffer(){
+        delete[] data;
     }
 
-    T2 getSecond() const{
-        cout << "Second Element: " << second << "\n";
-        return second;
+    CharBuffer(const CharBuffer& other) : size(other.size) , data(new char[other.size]) {
+        copy(other.data, other.data + other.size, data);
     }
 
-    void setFirst(const T1& f){
-        first = f;
+    CharBuffer& operator=(const CharBuffer& other){
+        if(this == &other){
+            return *this;
+        }
+
+        delete[] data;
+
+        size = other.size;
+        data = new char[other.size];
+        copy(other.data, other.data + other.size, data);
+
     }
 
-    void setSecond(const T2& s){
-        second = s;
+    CharBuffer(CharBuffer&& other) noexcept: size(other.size), data(other.data){
+        other.data = nullptr;
+        other.size = 0;
     }
 
-    void print() const{
-        cout << "(" << first << ", " << second << ")\n";
-    }
+    CharBuffer& operator=(CharBuffer&& other) noexcept{
+        if (this == &other){
+            return *this;
+        }
 
+        delete[] data;
+
+        size = other.size;
+        data = other.data;
+        other.data = nullptr;
+        other.size = 0;
+    }
 };
 
 int main(){
-    Pair<int, std::string> M;
-    Pair<double, double> T;
 
-    M.setFirst(101);
-    M.setSecond("Thor");
+    CharBuffer buf1 = 10000000;
+    CharBuffer buf2 = 1000000;
+    buf2 = buf1;
 
-    T.setFirst(45.5);
-    T.setSecond(90.2);
-
-    M.print();
-    T.print();
+    return 0;
 }
