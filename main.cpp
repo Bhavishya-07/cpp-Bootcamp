@@ -1,65 +1,66 @@
 #include <iostream>
 #include <memory>
+#include <vector>
 
 using namespace std;
 
-class Laptop{
-    int RAM;
+class Vehicle{
+
 public:
     
-    Laptop(int r) : RAM(r) {
-        cout << "Laptop recieved!\n";
+    Vehicle() {
+        cout << "Vehicle recieved!\n";
     }
 
-    ~Laptop(){
-        cout << "Laptop put back.\n";
+    virtual ~Vehicle(){
+        cout << "Vehicle put back.\n";
     }
 
-    bool ramcheck(){
-        if (RAM >= 16){
-            cout << "Laptop with RAM: " << RAM << "GB is optimal for GTA 6!\n";
-            return true;
-        }
+    virtual void startEngine() = 0;
+};
 
-        else{
-            cout << "Not optimal for GTA 6, needs extension.\n";
-            return false;
-        }
+class Car : public Vehicle{
+    public:
+    Car(){
+        cout << "Car recieved!\n";
+    }
+
+    ~Car(){
+        cout << "Car put back!\n";
+    }
+
+    void startEngine() override {
+        cout << "Car engine start!\n";
     }
 };
 
+class Bike : public Vehicle{
+    public:
+    Bike(){
+        cout << "Bike recieved!\n";
+    }
+
+    ~Bike(){
+        cout << "Bike put back!\n";
+    }
+
+    void startEngine() override{
+        cout << "Bike engine start!\n";
+    }
+};
+
+
+
 int main(){
-    int ct;
-
-    cout << "------------Trying HP Victus 15-------------\n";
-    shared_ptr<Laptop> HP = make_shared<Laptop> (40);
-
-    HP -> ramcheck();
     
-    cout << "------------Trying Acer Nitro V15------------\n";
-    shared_ptr<Laptop> Acer = HP;
+    vector<unique_ptr<Vehicle>> Lorry;
 
-    Acer -> ramcheck();
+    Lorry.push_back(make_unique<Car>());
+    Lorry.push_back(make_unique<Bike>());
 
-    cout << "------------Trying ASUS TUF Gaming------------\n";
-    shared_ptr<Laptop> Asus = HP;
-
-    Asus -> ramcheck();
-
-    cout << "------------Trying Dell------------\n";
-    shared_ptr<Laptop> Dell = Asus;
-
-    if (Dell -> ramcheck() == true) {
-        ct = HP.use_count();
+    for (const auto& ride : Lorry){
+        ride -> startEngine();
     }
 
-    cout << "------------Trying Lenovo------------\n";
-    unique_ptr<Laptop>Lenovo = make_unique<Laptop>(10);
-
-    if (Lenovo -> ramcheck() == true){
-        ct += 1;
-    }
-    
-    
-    cout << "Total Laptops eligible for GTA 6 = " << ct << "\n" ;
+    return 0;
 }
