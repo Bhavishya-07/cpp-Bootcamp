@@ -1,58 +1,65 @@
 #include <iostream>
+#include <memory>
+
 using namespace std;
 
-class CharBuffer{
-    char* data;
-    size_t size;
+class Laptop{
+    int RAM;
 public:
-
-    CharBuffer(size_t s) : size(s), data(new char[s]){}
-
-    ~CharBuffer(){
-        delete[] data;
+    
+    Laptop(int r) : RAM(r) {
+        cout << "Laptop recieved!\n";
     }
 
-    CharBuffer(const CharBuffer& other) : size(other.size) , data(new char[other.size]) {
-        copy(other.data, other.data + other.size, data);
+    ~Laptop(){
+        cout << "Laptop put back.\n";
     }
 
-    CharBuffer& operator=(const CharBuffer& other){
-        if(this == &other){
-            return *this;
+    bool ramcheck(){
+        if (RAM >= 16){
+            cout << "Laptop with RAM: " << RAM << "GB is optimal for GTA 6!\n";
+            return true;
         }
 
-        delete[] data;
-
-        size = other.size;
-        data = new char[other.size];
-        copy(other.data, other.data + other.size, data);
-
-    }
-
-    CharBuffer(CharBuffer&& other) noexcept: size(other.size), data(other.data){
-        other.data = nullptr;
-        other.size = 0;
-    }
-
-    CharBuffer& operator=(CharBuffer&& other) noexcept{
-        if (this == &other){
-            return *this;
+        else{
+            cout << "Not optimal for GTA 6, needs extension.\n";
+            return false;
         }
-
-        delete[] data;
-
-        size = other.size;
-        data = other.data;
-        other.data = nullptr;
-        other.size = 0;
     }
 };
 
 int main(){
+    int ct;
 
-    CharBuffer buf1 = 10000000;
-    CharBuffer buf2 = 1000000;
-    buf2 = buf1;
+    cout << "------------Trying HP Victus 15-------------\n";
+    shared_ptr<Laptop> HP = make_shared<Laptop> (40);
 
-    return 0;
+    HP -> ramcheck();
+    
+    cout << "------------Trying Acer Nitro V15------------\n";
+    shared_ptr<Laptop> Acer = HP;
+
+    Acer -> ramcheck();
+
+    cout << "------------Trying ASUS TUF Gaming------------\n";
+    shared_ptr<Laptop> Asus = HP;
+
+    Asus -> ramcheck();
+
+    cout << "------------Trying Dell------------\n";
+    shared_ptr<Laptop> Dell = Asus;
+
+    if (Dell -> ramcheck() == true) {
+        ct = HP.use_count();
+    }
+
+    cout << "------------Trying Lenovo------------\n";
+    unique_ptr<Laptop>Lenovo = make_unique<Laptop>(10);
+
+    if (Lenovo -> ramcheck() == true){
+        ct += 1;
+    }
+    
+    
+    cout << "Total Laptops eligible for GTA 6 = " << ct << "\n" ;
 }
