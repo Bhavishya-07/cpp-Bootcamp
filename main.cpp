@@ -1,42 +1,35 @@
 #include <iostream>
 #include <string>
 #include <stdexcept>
+#include <vector>
+#include <deque>
+#include <list>
+
 using namespace std;
 
-class Employee{
-protected:
-    string name;
-    double baseSalary;
-
-public:
-    Employee(string n, double s) : name(n), baseSalary(s){}
-
-    virtual ~Employee(){
-        cout << "-----------------------------------------Employee data put back-----------------------------------------\n";
-    }
-};
-
-class Manager : public Employee{
-private:
-    double bonus;
-
-public:
-    Manager(Employee e, double b) : Employee(e), bonus(b){}
-
-    ~Manager(){
-        cout << "-----------------------------------------Manager data put back-----------------------------------------\n";
-    }
-
-    void display(){
-        cout << "Manager " << name << " has a net salary: " << baseSalary + bonus << "\n";
-    }
-};
-
 int main(){
-    
-    Manager m1(Employee("Bhavishya Aggarwal", 75000.0), 15000.0);
 
-    m1.display();
+    vector<string> logs;
+    logs.reserve(5);
+
+    logs.push_back("ERROR_CODE 413");
+    logs.push_back("ERROR_CODE 564");
+    logs.push_back("ERROR_CODE 2466");
+    logs.push_back("ERROR_CODE 8678");
+
+    cout << "Size withheld: " << logs.size() << "\nPotential Capacity: " << logs.capacity() << "\n";
+
+    cout << "----------------------------------------------------------------------------------------\n";
+
+    deque<string> cp;
+
+    cp.push_back("RUN_CODE: 90");
+    cp.push_back("RUN_COMMAND_DUAL_AT_SEC7897");
+    cp.push_front("EMERGENCY_RUN_CODE_AT_P4975");
+
+    for (const auto& a : cp){
+        cout << a << "\n";
+    }
 
     return 0;
 }
