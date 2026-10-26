@@ -7,29 +7,42 @@
 #include <unordered_map>
 #include <set>
 #include <unordered_set>
+#include <algorithm>
 
 using namespace std;
 
 int main(){
 
-    unordered_map<string, int> freqCount;
+    vector<int> CPUTemp;
 
-    freqCount["TCP"] = 3;
-    freqCount["UDP"] = 2;
-    freqCount["ICMP"] = 1;
+    CPUTemp.push_back(72);
+    CPUTemp.push_back(45);
+    CPUTemp.push_back(90);
+    CPUTemp.push_back(60);
+    CPUTemp.push_back(85);
+    CPUTemp.push_back(50);
 
-    for (const auto& a : freqCount){
-        cout << a.first << " = " << a.second << "\n";
+    sort(CPUTemp.begin(), CPUTemp.end());
+
+    for (const auto& i : CPUTemp){
+        cout << i << " ";
+    }
+    cout << "\n\n";
+
+    bool a = binary_search(CPUTemp.begin(), CPUTemp.end(), 85);
+    if (a == 1){
+        cout << "85 present! \n\n";
     }
 
-    cout << "======================================================================================\n";
-
-    set<string> dupCheck = {"AUTH_OK", "AUTH_FAIL", "AUTH_OK", "TOKEN_EXPIRED"};
-
-    for (const auto& T : dupCheck){
-        cout << T << "\n";
+    else{
+        cout << "85 not present! \n\n";
     }
 
+    sort(CPUTemp.rbegin(), CPUTemp.rend());
+
+    for (const auto& j : CPUTemp){
+        cout << j << " ";
+    }
 
     return 0;
 }
