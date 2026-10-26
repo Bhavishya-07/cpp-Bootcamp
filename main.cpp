@@ -3,33 +3,33 @@
 #include <stdexcept>
 #include <vector>
 #include <deque>
-#include <list>
+#include <map>
+#include <unordered_map>
+#include <set>
+#include <unordered_set>
 
 using namespace std;
 
 int main(){
 
-    vector<string> logs;
-    logs.reserve(5);
+    unordered_map<string, int> freqCount;
 
-    logs.push_back("ERROR_CODE 413");
-    logs.push_back("ERROR_CODE 564");
-    logs.push_back("ERROR_CODE 2466");
-    logs.push_back("ERROR_CODE 8678");
+    freqCount["TCP"] = 3;
+    freqCount["UDP"] = 2;
+    freqCount["ICMP"] = 1;
 
-    cout << "Size withheld: " << logs.size() << "\nPotential Capacity: " << logs.capacity() << "\n";
-
-    cout << "----------------------------------------------------------------------------------------\n";
-
-    deque<string> cp;
-
-    cp.push_back("RUN_CODE: 90");
-    cp.push_back("RUN_COMMAND_DUAL_AT_SEC7897");
-    cp.push_front("EMERGENCY_RUN_CODE_AT_P4975");
-
-    for (const auto& a : cp){
-        cout << a << "\n";
+    for (const auto& a : freqCount){
+        cout << a.first << " = " << a.second << "\n";
     }
+
+    cout << "======================================================================================\n";
+
+    set<string> dupCheck = {"AUTH_OK", "AUTH_FAIL", "AUTH_OK", "TOKEN_EXPIRED"};
+
+    for (const auto& T : dupCheck){
+        cout << T << "\n";
+    }
+
 
     return 0;
 }
